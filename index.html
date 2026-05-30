@@ -679,23 +679,35 @@
   <div class="container">
     <div class="section-tag">Altimetria</div>
     <h2>Perfis de elevação</h2>
-    <p class="lead">Representação esquemática dos 4 dias — para GPX e perfis interativos ver gr-go.fr e AllTrails.</p>
+    <p class="lead">Perfis detalhados dos 4 dias com colos, cumes e pontos de referência — para GPX e perfis interativos ver gr-go.fr e AllTrails.</p>
+
+    <div class="elevation-wrap" style="border-color:rgba(196,133,42,0.3);background:rgba(196,133,42,0.04)">
+      <div class="elevation-title">Travessia completa — comparação dos 4 dias na mesma escala</div>
+      <div style="display:flex;flex-wrap:wrap;gap:14px;margin-bottom:0.8rem;font-size:0.78rem;color:var(--stone)">
+        <span style="display:flex;align-items:center;gap:5px"><span style="width:11px;height:11px;border-radius:2px;background:rgb(45,74,45)"></span>Dia 1 · Hendaia→Sare</span>
+        <span style="display:flex;align-items:center;gap:5px"><span style="width:11px;height:11px;border-radius:2px;background:rgb(107,140,90)"></span>Dia 2 · Sare→Bidarray</span>
+        <span style="display:flex;align-items:center;gap:5px"><span style="width:11px;height:11px;border-radius:2px;background:rgb(180,60,30)"></span>Dia 3 · →St-Étienne ⚠️</span>
+        <span style="display:flex;align-items:center;gap:5px"><span style="width:11px;height:11px;border-radius:2px;background:rgb(139,92,246)"></span>Dia 4 · →St-Jean-PP</span>
+      </div>
+      <div class="chart-area" style="height:280px"><canvas id="call" role="img" aria-label="Perfil contínuo das 4 etapas na mesma escala. Dia 3 atinge o ponto mais alto a 1044m em Iparla."></canvas></div>
+      <p style="font-size:0.72rem;color:var(--stone);margin-top:0.5rem">Eixo X = distância acumulada (km). Linhas verticais tracejadas = fim de cada etapa / dormida (Sare 29km, Bidarray 51km, St-Étienne 68km).</p>
+    </div>
 
     <div class="elevation-wrap">
-      <div class="elevation-title">Dia 1 — Hendaia → Sare · 29 km · +1100 m</div>
-      <div class="chart-area"><canvas id="c1" role="img" aria-label="Perfil elevação dia 1"></canvas></div>
+      <div class="elevation-title">Dia 1 — Hendaia → Sare · 29 km · +1100 m · ondulante, vários colos baixos</div>
+      <div class="chart-area"><canvas id="c1" role="img" aria-label="Perfil elevação dia 1 com 12 pontos"></canvas></div>
     </div>
     <div class="elevation-wrap">
-      <div class="elevation-title">Dia 2 — Sare → Bidarray (via Ainhoa) · ~22 km · +1050 m</div>
-      <div class="chart-area"><canvas id="c2" role="img" aria-label="Perfil elevação dia 2"></canvas></div>
+      <div class="elevation-title">Dia 2 — Sare → Bidarray (via Ainhoa) · ~22 km · +1050 m · vales-aldeias depois balcão a 600m</div>
+      <div class="chart-area"><canvas id="c2" role="img" aria-label="Perfil elevação dia 2 com 11 pontos"></canvas></div>
     </div>
     <div class="elevation-wrap">
-      <div class="elevation-title">Dia 3 — Bidarray → Saint-Étienne-de-Baïgorry · ~17 km · +1250 m ⚠️ Mais exigente</div>
-      <div class="chart-area"><canvas id="c3" role="img" aria-label="Perfil elevação dia 3"></canvas></div>
+      <div class="elevation-title">Dia 3 — Bidarray → Saint-Étienne-de-Baïgorry · ~17 km · +1250 m · ⚠️ subida brutal + crista aérea</div>
+      <div class="chart-area"><canvas id="c3" role="img" aria-label="Perfil elevação dia 3 com 10 pontos"></canvas></div>
     </div>
     <div class="elevation-wrap">
-      <div class="elevation-title">Dia 4 — Saint-Étienne-de-Baïgorry → Saint-Jean-Pied-de-Port · ~18 km · +740 m</div>
-      <div class="chart-area"><canvas id="c4" role="img" aria-label="Perfil elevação dia 4"></canvas></div>
+      <div class="elevation-title">Dia 4 — Saint-Étienne-de-Baïgorry → Saint-Jean-Pied-de-Port · ~18 km · +740 m · subida regular, sem técnica</div>
+      <div class="chart-area"><canvas id="c4" role="img" aria-label="Perfil elevação dia 4 com 9 pontos"></canvas></div>
     </div>
 
     <p style="font-size:0.78rem;color:var(--stone);margin-top:0.5rem">
@@ -928,69 +940,108 @@
   <p style="margin-top:0.5rem">Fontes: respyrenees.com · gr-go.fr · alltrails.com · hunza.pro · wikiloc.com · gpstraces.net · alsa.com · sncf-connect.com · euskotren.eus</p>
 </footer>
 
-<!-- CHARTS — inline via CDN, funciona offline após primeira carga -->
+<!-- CHARTS — via CDN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
 const gridC = 'rgba(45,74,45,0.1)';
 const textC = '#8a8070';
+const boundC = 'rgba(45,74,45,0.3)';
+const FAM = "'DM Sans', sans-serif";
 
-function makeProfile(id, labels, data, color, maxY) {
+/* ---- perfis individuais detalhados ---- */
+function prof(id, pts, color, maxY){
   new Chart(document.getElementById(id), {
-    type: 'line',
-    data: {
-      labels,
-      datasets: [{
-        data,
-        borderColor: color,
-        borderWidth: 2.5,
-        pointRadius: 4,
-        pointBackgroundColor: color,
-        fill: true,
-        backgroundColor: color.replace('rgb(', 'rgba(').replace(')', ',0.12)'),
-        tension: 0.35
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: { display: false },
-        tooltip: { callbacks: { label: ctx => ctx.parsed.y + ' m' } }
-      },
-      scales: {
-        x: {
-          grid: { color: gridC },
-          ticks: { color: textC, font: { size: 11, family: "'DM Sans', sans-serif" } }
-        },
-        y: {
-          min: 0, max: maxY,
-          grid: { color: gridC },
-          ticks: { color: textC, font: { size: 11, family: "'DM Sans', sans-serif" }, callback: v => v + 'm' }
-        }
+    type:'line',
+    data:{ labels: pts.map(p=>p[0]), datasets:[{
+      data: pts.map(p=>p[1]),
+      borderColor: color, borderWidth: 2.5,
+      pointRadius: 3, pointBackgroundColor: color, pointHoverRadius: 5,
+      fill: true,
+      backgroundColor: color.replace('rgb(','rgba(').replace(')',',0.12)'),
+      tension: 0.3
+    }]},
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label: c=> c.parsed.y+' m' } } },
+      scales:{
+        x:{ grid:{color:gridC}, ticks:{ color:textC, font:{size:9.5,family:FAM}, maxRotation:55, minRotation:45, autoSkip:false } },
+        y:{ min:0, max:maxY, grid:{color:gridC}, ticks:{ color:textC, font:{size:10,family:FAM}, callback:v=>v+'m' } }
       }
     }
   });
 }
 
-makeProfile('c1',
-  ['Hendaia 10m', 'Biriatou', 'Col Osin 374m', 'Col Ibardin 317m', 'Col 3 Fontaines 574m', 'Sare 50m'],
-  [10, 120, 374, 317, 574, 50],
-  'rgb(45,74,45)', 700);
+prof('c1', [
+  ['Hendaia',10],['Biriatou',50],['Col Osin',374],['Col Poiriers',317],
+  ['Col Joncs',417],['pé Mandale',530],['Col Ibardin',317],['Venta Inzola',120],
+  ['Col G. Escala',272],['Olhette',100],['Col 3 Font.',574],['Sare',50]
+], 'rgb(45,74,45)', 700);
 
-makeProfile('c2',
-  ['Sare 50m', 'Chapelle Arantze', 'Ereby 583m', 'Col Méhatché 660m', 'Vale Bastan', 'Bidarray 150m'],
-  [50, 350, 583, 660, 200, 150],
-  'rgb(107,140,90)', 800);
+prof('c2', [
+  ['Sare',50],['Ainhoa',120],['Dancharia',50],['Chapelle Arantze',400],
+  ['Erebi',583],['Atxulegi',617],['Gorospil',620],['Col Méhatché',660],
+  ["Pont d'Enfer",200],['subida final',210],['Bidarray',150]
+], 'rgb(107,140,90)', 750);
 
-makeProfile('c3',
-  ['Bidarray 150m', 'Subida Iparla', 'Larratéko 962m', 'Cume Iparla 1044m', 'Descida', 'St-Étienne 162m'],
-  [150, 450, 962, 1044, 500, 162],
-  'rgb(180,60,30)', 1200);
+prof('c3', [
+  ['Bidarray',150],['collado',450],['Buztanzelhay',689],['Larratéko',962],
+  ['Cume Iparla',1044],['crista',980],['Col Harrieta',808],['início desc.',700],
+  ['Urdoz',350],['St-Étienne',162]
+], 'rgb(180,60,30)', 1150);
 
-makeProfile('c4',
-  ['St-Étienne 162m', 'Início subida', 'Oylarandoy 740m', 'Início descida', 'St-Jean-Pied-de-Port 170m'],
-  [162, 350, 740, 450, 170],
-  'rgb(139,92,246)', 900);
+prof('c4', [
+  ['St-Étienne',162],['château d\'eau',350],['ponto 521m',521],['cabana',620],
+  ['Col Aharza',740],['Oylarandoy',740],['flanco Munhoa',560],['Lasse',180],
+  ['St-Jean-PP',170]
+], 'rgb(139,92,246)', 850);
+
+/* ---- perfil contínuo comparativo (distância acumulada) ---- */
+const d1 = [[0,10],[5,50],[8,374],[11,317],[13,417],[14,530],[17,317],[20,120],[23,272],[24,100],[26,574],[29,50]];
+const d2 = [[29,50],[36,120],[38,50],[41,400],[44,583],[45,617],[46,620],[47,660],[49,200],[51,150]];
+const d3 = [[51,150],[54,450],[56,689],[59,962],[60,1044],[62,980],[63,808],[64,700],[66,350],[68,162]];
+const d4 = [[68,162],[70,350],[72,521],[73,620],[75,740],[76,740],[79,560],[84,180],[86,170]];
+
+const mk = (arr,color)=>({
+  data: arr.map(p=>({x:p[0],y:p[1]})),
+  borderColor: color, borderWidth: 2,
+  pointRadius: 2.5, pointBackgroundColor: color, pointHoverRadius: 5,
+  fill: true,
+  backgroundColor: color.replace('rgb(','rgba(').replace(')',',0.10)'),
+  tension: 0.3
+});
+
+const boundaries = {
+  id:'bounds',
+  afterDraw(chart){
+    const {ctx, chartArea:{top,bottom}, scales:{x}} = chart;
+    ctx.save();
+    ctx.strokeStyle = boundC; ctx.setLineDash([4,4]); ctx.lineWidth = 1;
+    [29,51,68].forEach(km=>{
+      const px = x.getPixelForValue(km);
+      ctx.beginPath(); ctx.moveTo(px,top); ctx.lineTo(px,bottom); ctx.stroke();
+    });
+    ctx.restore();
+  }
+};
+
+new Chart(document.getElementById('call'), {
+  type:'line',
+  data:{ datasets:[ mk(d1,'rgb(45,74,45)'), mk(d2,'rgb(107,140,90)'), mk(d3,'rgb(180,60,30)'), mk(d4,'rgb(139,92,246)') ] },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{
+      legend:{display:false},
+      tooltip:{ callbacks:{ title: items=> 'km ' + items[0].parsed.x, label: c=> c.parsed.y + ' m' } }
+    },
+    scales:{
+      x:{ type:'linear', min:0, max:86, title:{display:true,text:'Distância acumulada (km)',color:textC,font:{size:11,family:FAM}},
+          grid:{color:gridC}, ticks:{ color:textC, font:{size:10,family:FAM}, stepSize:10, callback:v=>v+'km' } },
+      y:{ min:0, max:1100, title:{display:true,text:'Altitude (m)',color:textC,font:{size:11,family:FAM}},
+          grid:{color:gridC}, ticks:{ color:textC, font:{size:10,family:FAM}, callback:v=>v+'m' } }
+    }
+  },
+  plugins:[boundaries]
+});
 </script>
 </body>
 </html>
