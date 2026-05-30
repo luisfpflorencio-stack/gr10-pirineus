@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GR10 — Pirinéus Bascos · Guia de Caminhada</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f5f0e8;
+    --dark: #1a1a14;
+    --pine: #2d4a2d;
+    --pine-light: #3d6b3d;
+    --moss: #6b8c5a;
+    --amber: #c4852a;
+    --amber-light: #e8a845;
+    --stone: #8a8070;
+    --warm-white: #faf8f3;
+    --border: rgba(45,74,45,0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--dark);
+    font-weight: 300;
+  }
+
+  /* ---- HERO ---- */
+  .hero {
+    position: relative;
+    height: 100vh;
+    min-height: 600px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to bottom, rgba(10,20,10,0.1) 0%, rgba(10,20,10,0.65) 100%),
+      url('https://www.frenchpyreneeswalking.co.uk/wp-content/uploads/2019/03/GR10-Pays-Basque-Section-1-1024x683.jpg') center/cover no-repeat;
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 4rem 3rem;
+    max-width: 900px;
+  }
+  .hero-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--amber-light);
+    margin-bottom: 1rem;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    color: #fff;
+    line-height: 1.05;
+    margin-bottom: 1.2rem;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--amber-light);
+  }
+  .hero-sub {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.8);
+    max-width: 480px;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+  }
+  .hero-stats {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .hero-stat {
+    color: #fff;
+  }
+  .hero-stat-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    color: var(--amber-light);
+    display: block;
+  }
+  .hero-stat-lbl {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.75;
+  }
+  .hero-credit {
+    position: absolute;
+    bottom: 1rem;
+    right: 1.5rem;
+    font-size: 0.65rem;
+    color: rgba(255,255,255,0.45);
+  }
+
+  /* ---- NAV ---- */
+  nav {
+    background: var(--pine);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+  }
+  nav a {
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 1rem 1.2rem;
+    white-space: nowrap;
+    transition: color 0.2s;
+    border-bottom: 2px solid transparent;
+  }
+  nav a:hover { color: #fff; border-bottom-color: var(--amber-light); }
+
+  /* ---- CONTAINER ---- */
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+
+  /* ---- SECTIONS ---- */
+  section { padding: 4rem 0; }
+  section + section { border-top: 1px solid var(--border); }
+
+  .section-tag {
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--moss);
+    margin-bottom: 0.6rem;
+  }
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    color: var(--pine);
+    line-height: 1.15;
+    margin-bottom: 1rem;
+  }
+  .lead {
+    font-size: 1.05rem;
+    color: var(--stone);
+    line-height: 1.8;
+    max-width: 640px;
+    margin-bottom: 2.5rem;
+  }
+
+  /* ---- OVERVIEW GRID ---- */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+  @media(max-width:700px) { .overview-grid { grid-template-columns: 1fr; } }
+
+  .context-block {
+    background: var(--pine);
+    color: #fff;
+    border-radius: 4px;
+    padding: 2rem;
+  }
+  .context-block h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    color: var(--amber-light);
+  }
+  .context-block p {
+    font-size: 0.9rem;
+    line-height: 1.8;
+    opacity: 0.85;
+    margin-bottom: 0.8rem;
+  }
+  .stat-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .stat-box {
+    background: var(--warm-white);
+    padding: 1.2rem;
+  }
+  .stat-box-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: var(--pine);
+    display: block;
+    line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+  .stat-box-lbl {
+    font-size: 0.72rem;
+    color: var(--stone);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* ---- COMPARISON TABLE ---- */
+  .comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 2rem;
+    font-size: 0.88rem;
+  }
+  .comparison-table th {
+    background: var(--pine);
+    color: #fff;
+    padding: 0.8rem 1rem;
+    text-align: left;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    font-size: 0.78rem;
+  }
+  .comparison-table th:first-child { border-radius: 4px 0 0 0; }
+  .comparison-table th:last-child { border-radius: 0 4px 0 0; }
+  .comparison-table td {
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--dark);
+    line-height: 1.5;
+  }
+  .comparison-table tr:nth-child(even) td { background: rgba(45,74,45,0.03); }
+  .comparison-table td:first-child { font-weight: 500; color: var(--pine); }
+  .highlight-row td { background: rgba(196,133,42,0.08) !important; }
+
+  /* ---- DAYS SECTION ---- */
+  .day-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 2rem;
+    background: var(--warm-white);
+  }
+  @media(max-width:700px) { .day-card { grid-template-columns: 1fr; } }
+
+  .day-img {
+    position: relative;
+    min-height: 280px;
+    overflow: hidden;
+  }
+  .day-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .day-num {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: var(--pine);
+    color: #fff;
+    font-family: 'Playfair Display', serif;
+    font-size: 0.85rem;
+    padding: 0.3rem 0.8rem;
+    letter-spacing: 0.05em;
+  }
+  .day-diff {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    padding: 0.25rem 0.7rem;
+    border-radius: 2px;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .diff-med { background: rgba(107,140,90,0.9); color: #fff; }
+  .diff-hard { background: rgba(180,60,30,0.9); color: #fff; }
+  .diff-easy { background: rgba(45,74,45,0.85); color: #fff; }
+
+  .day-info { padding: 1.8rem; display: flex; flex-direction: column; gap: 1rem; }
+  .day-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    color: var(--pine);
+  }
+  .day-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+  .chip {
+    background: rgba(45,74,45,0.08);
+    color: var(--pine);
+    font-size: 0.78rem;
+    padding: 0.2rem 0.7rem;
+    border-radius: 2px;
+    border: 1px solid rgba(45,74,45,0.15);
+  }
+  .chip.warn { background: rgba(196,133,42,0.1); color: var(--amber); border-color: rgba(196,133,42,0.2); }
+  .day-desc { font-size: 0.88rem; line-height: 1.8; color: var(--stone); }
+  .day-highlights { list-style: none; padding: 0; }
+  .day-highlights li {
+    font-size: 0.85rem;
+    color: var(--dark);
+    padding: 0.3rem 0;
+    padding-left: 1.2rem;
+    position: relative;
+    line-height: 1.5;
+  }
+  .day-highlights li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--moss);
+    font-size: 0.8rem;
+  }
+  .day-sleep {
+    font-size: 0.8rem;
+    color: var(--stone);
+    padding-top: 0.6rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  /* ---- ELEVATION CHART ---- */
+  .elevation-wrap {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 2rem;
+    margin: 2rem 0;
+  }
+  .elevation-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--pine);
+    margin-bottom: 1.2rem;
+  }
+  .chart-area { position: relative; height: 160px; }
+
+  /* ---- TRANSPORT SECTION ---- */
+  .transport-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  @media(max-width:700px) { .transport-grid { grid-template-columns: 1fr; } }
+
+  .transport-card {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--warm-white);
+  }
+  .transport-header {
+    background: var(--pine);
+    padding: 1rem 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .transport-header h3 {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: #fff;
+  }
+  .t-badge {
+    font-size: 0.65rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 2px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .t-badge-rec { background: var(--amber-light); color: var(--dark); }
+  .t-badge-alt { background: rgba(255,255,255,0.15); color: #fff; }
+
+  .transport-steps {
+    padding: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+  .t-step { display: flex; gap: 0.8rem; align-items: flex-start; }
+  .t-step-icon { font-size: 1rem; margin-top: 0.05rem; flex-shrink: 0; }
+  .t-step-text { font-size: 0.85rem; line-height: 1.6; color: var(--dark); }
+  .t-step-text strong { color: var(--pine); font-weight: 500; }
+  .t-step-text small { color: var(--stone); font-size: 0.78rem; display: block; }
+
+  .transport-meta {
+    border-top: 1px solid var(--border);
+    padding: 0.8rem 1.2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: 0.78rem;
+    color: var(--stone);
+  }
+
+  .warn-box {
+    background: rgba(196,133,42,0.1);
+    border-left: 3px solid var(--amber);
+    padding: 1rem 1.2rem;
+    border-radius: 0 4px 4px 0;
+    font-size: 0.88rem;
+    line-height: 1.7;
+    color: var(--dark);
+    margin: 1.5rem 0;
+  }
+  .info-box {
+    background: rgba(45,74,45,0.06);
+    border-left: 3px solid var(--moss);
+    padding: 1rem 1.2rem;
+    border-radius: 0 4px 4px 0;
+    font-size: 0.88rem;
+    line-height: 1.7;
+    color: var(--dark);
+    margin: 1.5rem 0;
+  }
+
+  /* ---- PRACTICAL INFO ---- */
+  .practical-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  .prac-card {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.4rem;
+  }
+  .prac-icon { font-size: 1.4rem; margin-bottom: 0.6rem; }
+  .prac-title { font-weight: 500; font-size: 0.9rem; color: var(--pine); margin-bottom: 0.5rem; }
+  .prac-text { font-size: 0.82rem; line-height: 1.7; color: var(--stone); }
+  .prac-text a { color: var(--moss); }
+
+  /* ---- RESOURCES ---- */
+  .resource-list { list-style: none; margin-top: 1.5rem; }
+  .resource-list li {
+    border-bottom: 1px solid var(--border);
+    padding: 0.9rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .resource-list li:last-child { border-bottom: none; }
+  .res-name { font-weight: 500; font-size: 0.9rem; color: var(--pine); }
+  .res-desc { font-size: 0.82rem; color: var(--stone); margin-top: 0.15rem; }
+  .res-link a {
+    font-size: 0.78rem;
+    color: var(--moss);
+    text-decoration: none;
+    border-bottom: 1px solid var(--moss);
+    padding-bottom: 1px;
+  }
+
+  /* ---- FOOTER ---- */
+  footer {
+    background: var(--pine);
+    color: rgba(255,255,255,0.6);
+    padding: 2.5rem;
+    text-align: center;
+    font-size: 0.78rem;
+    line-height: 1.8;
+  }
+  footer strong { color: rgba(255,255,255,0.9); }
+
+  /* ---- IMAGE GALLERY ---- */
+  .gallery {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: 200px 200px;
+    gap: 6px;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 3rem;
+  }
+  @media(max-width:600px) {
+    .gallery { grid-template-columns: 1fr 1fr; grid-template-rows: 150px 150px 150px; }
+    .gallery-main { grid-column: 1 / -1; }
+  }
+  .gallery-main { grid-row: 1 / 3; }
+  .gallery-img {
+    overflow: hidden;
+    position: relative;
+  }
+  .gallery-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+  .gallery-img:hover img { transform: scale(1.04); }
+  .gallery-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,0.6));
+    color: rgba(255,255,255,0.85);
+    font-size: 0.65rem;
+    padding: 0.6rem 0.5rem 0.4rem;
+    letter-spacing: 0.04em;
+  }
+
+  /* elevation SVG */
+  .elev-svg { width: 100%; height: 140px; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Guia de caminhada · Verão 2026</div>
+    <h1>GR10 <em>Pirinéus</em><br>Bascos</h1>
+    <p class="hero-sub">De Hendaia ao pé do oceano até Saint-Jean-Pied-de-Port nas montanhas — 4 dias pelo coração verde do País Basco francês.</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><span class="hero-stat-val">~82 km</span><span class="hero-stat-lbl">Distância total</span></div>
+      <div class="hero-stat"><span class="hero-stat-val">3600 m</span><span class="hero-stat-lbl">Desnível acumulado</span></div>
+      <div class="hero-stat"><span class="hero-stat-val">4 dias</span><span class="hero-stat-lbl">Etapas</span></div>
+      <div class="hero-stat"><span class="hero-stat-val">905 m</span><span class="hero-stat-lbl">Altitude máxima</span></div>
+    </div>
+  </div>
+  <div class="hero-credit">Foto: frenchpyreneeswalking.co.uk</div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#contexto">Contexto</a>
+    <a href="#etapas">Etapas</a>
+    <a href="#perfis">Perfis</a>
+    <a href="#transportes">Transportes</a>
+    <a href="#pratico">Info prática</a>
+    <a href="#recursos">Recursos</a>
+  </div>
+</nav>
+
+<!-- CONTEXTO -->
+<section id="contexto">
+  <div class="container">
+    <div class="section-tag">O que são os Pirinéus Bascos</div>
+    <h2>Uma zona completamente diferente</h2>
+    <p class="lead">Não são as montanhas de Bilbao (Gorbea, Anboto) nem a costa do Caminho do Norte — são os Pirinéus do lado francês do País Basco, uma zona montanhosa verde e selvagem que vai do Atlântico até às primeiras cumes verdadeiramente altas.</p>
+
+    <!-- GALLERY -->
+    <div class="gallery">
+      <div class="gallery-img gallery-main">
+        <img src="https://www.respyrenees.com/images/blog/gr10-pays-basque.jpg"
+             onerror="this.src='https://www.frenchpyreneeswalking.co.uk/wp-content/uploads/2019/03/GR10-Pays-Basque-Section-1-1024x683.jpg'"
+             alt="GR10 País Basco — paisagem verde">
+        <div class="gallery-caption">GR10 secção vasca · fonte: respyrenees.com</div>
+      </div>
+      <div class="gallery-img">
+        <img src="https://www.frenchpyreneeswalking.co.uk/wp-content/uploads/2019/03/La-Rhune-from-GR10-1024x683.jpg"
+             onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/La_Rhune.jpg/800px-La_Rhune.jpg'"
+             alt="La Rhune vista do GR10">
+        <div class="gallery-caption">La Rhune (905m) · frenchpyreneeswalking.co.uk</div>
+      </div>
+      <div class="gallery-img">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Ainhoa_%28Pyr%C3%A9n%C3%A9es-Atlantiques%29.jpg/800px-Ainhoa_%28Pyr%C3%A9n%C3%A9es-Atlantiques%29.jpg"
+             alt="Aldeia de Ainhoa">
+        <div class="gallery-caption">Aldeia de Ainhoa · Wikimedia Commons</div>
+      </div>
+      <div class="gallery-img">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Cr%C3%AAtes_d%27Iparla.jpg/800px-Cr%C3%AAtes_d%27Iparla.jpg"
+             onerror="this.src='https://www.pyrenees-atlantiques.fr/fileadmin/_processed_/0/f/csm_iparla-bidarray-pays-basque_a78d7e4c3a.jpg'"
+             alt="Cristas de Iparla">
+        <div class="gallery-caption">Cristas de Iparla · Wikimedia Commons</div>
+      </div>
+      <div class="gallery-img">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Saint-Jean-Pied-de-Port_Nive.jpg/800px-Saint-Jean-Pied-de-Port_Nive.jpg"
+             alt="Saint-Jean-Pied-de-Port">
+        <div class="gallery-caption">Saint-Jean-Pied-de-Port · Wikimedia Commons</div>
+      </div>
+    </div>
+
+    <div class="overview-grid">
+      <div class="context-block">
+        <h3>O GR10 — Grande Travessia</h3>
+        <p>O GR10 é uma das grandes rotas de longa distância europeias: ~900 km do Atlântico ao Mediterrâneo, atravessando toda a cadeia dos Pirinéus do lado francês. Dura 45–60 dias completo.</p>
+        <p>Para nós interessa a <strong>secção vasca</strong> — os primeiros ~80 km de Hendaia a Saint-Jean-Pied-de-Port, que formam um percurso autónomo perfeito de 4 dias, com aldeias típicas, cristas espetaculares e chegada épica à cidade medieval.</p>
+        <p>Ao contrário do Caminho do Norte (peregrinos, costa industrial), aqui é montanha e natureza vasca com muito menos gente.</p>
+      </div>
+      <div>
+        <div class="stat-row">
+          <div class="stat-box"><span class="stat-box-val">~82 km</span><span class="stat-box-lbl">Distância</span></div>
+          <div class="stat-box"><span class="stat-box-val">~3600 m</span><span class="stat-box-lbl">Desnível ↑</span></div>
+          <div class="stat-box"><span class="stat-box-val">905 m</span><span class="stat-box-lbl">Altitude máx.</span></div>
+          <div class="stat-box"><span class="stat-box-val">Média-alta</span><span class="stat-box-lbl">Dificuldade</span></div>
+          <div class="stat-box"><span class="stat-box-val">Abr–Out</span><span class="stat-box-lbl">Época ideal</span></div>
+          <div class="stat-box"><span class="stat-box-val">4 dias</span><span class="stat-box-lbl">Duração</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMPARISON -->
+    <h3 style="font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--pine);margin-top:2.5rem;margin-bottom:0.5rem">Como se compara com as outras rotas</h3>
+    <p style="font-size:0.88rem;color:var(--stone);margin-bottom:0">Contexto em relação às rotas anteriormente discutidas:</p>
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Rota</th>
+          <th>Terreno</th>
+          <th>Altitude máx.</th>
+          <th>Carácter</th>
+          <th>Logística</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>GR-123 (Gorbea/Anboto)</td>
+          <td>Montanha espanhola interior</td>
+          <td>1481 m</td>
+          <td>Robusta, pouco turística</td>
+          <td>Bilbao base</td>
+        </tr>
+        <tr>
+          <td>Caminho do Norte (SS→Bilbao)</td>
+          <td>Costa + aldeias</td>
+          <td>~400 m</td>
+          <td>Peregrinação, infraestrutura</td>
+          <td>San Sebastián → Bilbao</td>
+        </tr>
+        <tr class="highlight-row">
+          <td><strong>GR10 Pirinéus Bascos ★</strong></td>
+          <td>Montanha franco-basca</td>
+          <td>1044 m</td>
+          <td>Travessia, semi-selvagem</td>
+          <td>Hendaia → SJPP</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ETAPAS -->
+<section id="etapas">
+  <div class="container">
+    <div class="section-tag">Itinerário detalhado</div>
+    <h2>As 4 etapas</h2>
+    <p class="lead">De Hendaia, à beira do Atlântico, até Saint-Jean-Pied-de-Port, encaixada nas montanhas — cada dia com personalidade própria.</p>
+
+    <!-- DIA 1 -->
+    <div class="day-card">
+      <div class="day-img">
+        <img src="https://www.frenchpyreneeswalking.co.uk/wp-content/uploads/2019/03/GR10-Pays-Basque-Section-1-1024x683.jpg"
+             alt="GR10 Hendaia para Sare — vista para o oceano">
+        <div class="day-num">Dia 1</div>
+        <div class="day-diff diff-med">Médio</div>
+      </div>
+      <div class="day-info">
+        <div class="day-title">Hendaia → Sare</div>
+        <div class="day-meta">
+          <span class="chip">29 km</span>
+          <span class="chip">↑ +1100 m</span>
+          <span class="chip">↓ −1100 m</span>
+          <span class="chip">8–9h</span>
+        </div>
+        <p class="day-desc">O arranque mais singular possível: saída literalmente da praia do Atlântico e subida progressiva para as primeiras cristas. Vista para o oceano e Hendaia durante as primeiras horas. Dois cumes intermédios antes da descida a Sare.</p>
+        <ul class="day-highlights">
+          <li>Biriatou — aldeia fronteiriça com igreja do séc. XIII</li>
+          <li>Col d'Ibardin (317m) — ventas espanholas, bom ponto de reabastecimento</li>
+          <li>Col des Trois Fontaines (574m) — vista para La Rhune</li>
+          <li>Sare — um dos "Plus Beaux Villages de France", casas brancas e vermelhas</li>
+        </ul>
+        <div class="day-sleep">🏠 Gîte em Sare (reservar com antecedência em época alta) · fonte: <a href="https://www.respyrenees.com" target="_blank">respyrenees.com</a></div>
+      </div>
+    </div>
+
+    <!-- DIA 2 -->
+    <div class="day-card">
+      <div class="day-img">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Ainhoa_%28Pyr%C3%A9n%C3%A9es-Atlantiques%29.jpg/800px-Ainhoa_%28Pyr%C3%A9n%C3%A9es-Atlantiques%29.jpg"
+             alt="Aldeia de Ainhoa">
+        <div class="day-num">Dia 2</div>
+        <div class="day-diff diff-med">Médio-difícil</div>
+      </div>
+      <div class="day-info">
+        <div class="day-title">Sare → Bidarray (via Ainhoa)</div>
+        <div class="day-meta">
+          <span class="chip">~22 km</span>
+          <span class="chip">↑ +1050 m</span>
+          <span class="chip">↓ −1050 m</span>
+          <span class="chip">7–8h</span>
+        </div>
+        <p class="day-desc">Manhã de aldeia em aldeia: Ainhoa, bastide medieval do séc. XII com a rua principal intacta. À tarde, o Col de Méhatché marca a entrada nas montanhas a sério — a descida para Bidarray é técnica e escorregadia com chuva.</p>
+        <ul class="day-highlights">
+          <li>Ainhoa — bastide perfeita, um dos mais belos villages de França</li>
+          <li>Capelinha de Arantze (rodeada de azevinho secular)</li>
+          <li>Col de Méhatché (660m) — fronteira entre Labourd e Baixa Navarra</li>
+          <li>Gruta de Harpeko Saindua — estalagmite lendária no caminho</li>
+          <li>Bidarray — vale verde com fronton de pelota basca</li>
+        </ul>
+        <div class="day-sleep">🏠 Gîte em Bidarray · fonte: <a href="https://jennyetbenoit.fr/randonnee-gr10/" target="_blank">jennyetbenoit.fr</a></div>
+      </div>
+    </div>
+
+    <!-- DIA 3 -->
+    <div class="day-card">
+      <div class="day-img">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Cr%C3%AAtes_d%27Iparla.jpg/800px-Cr%C3%AAtes_d%27Iparla.jpg"
+             onerror="this.src='https://www.frenchpyreneeswalking.co.uk/wp-content/uploads/2019/03/GR10-Pays-Basque-Section-1-768x512.jpg'"
+             alt="Cristas de Iparla">
+        <div class="day-num">Dia 3</div>
+        <div class="day-diff diff-hard">Difícil</div>
+      </div>
+      <div class="day-info">
+        <div class="day-title">Bidarray → Saint-Étienne-de-Baïgorry</div>
+        <div class="day-meta">
+          <span class="chip">~17 km</span>
+          <span class="chip">↑ +1250 m</span>
+          <span class="chip">↓ −1250 m</span>
+          <span class="chip">7h30–8h30</span>
+          <span class="chip warn">⚠️ Mais exigente</span>
+        </div>
+        <p class="day-desc">A etapa rainha da travessia. Subida muito íngreme ao longo das cristas de Iparla (+900m em poucas horas), com passagens aéreas e vistas a 360° para os vales do Nive e do Bastan. Quem sofre de vertigens deve ter cuidado nas passagens mais expostas.</p>
+        <ul class="day-highlights">
+          <li>Subida às cristas de Iparla — "muralha" vista do vale</li>
+          <li>Larratéko-Heguia (962m) e cume Iparla (1044m)</li>
+          <li>⚠️ Sem fontes na crista — levar mínimo 2L de água</li>
+          <li>Descida para Saint-Étienne, village com pontes medievais e pelota basca</li>
+        </ul>
+        <div class="day-sleep">🏠 Gîte / pequeno hotel em Saint-Étienne-de-Baïgorry · fonte: <a href="https://www.wikiloc.com" target="_blank">wikiloc.com</a></div>
+      </div>
+    </div>
+
+    <!-- DIA 4 -->
+    <div class="day-card">
+      <div class="day-img">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Saint-Jean-Pied-de-Port_Nive.jpg/800px-Saint-Jean-Pied-de-Port_Nive.jpg"
+             alt="Saint-Jean-Pied-de-Port">
+        <div class="day-num">Dia 4</div>
+        <div class="day-diff diff-easy">Médio</div>
+      </div>
+      <div class="day-info">
+        <div class="day-title">Saint-Étienne → Saint-Jean-Pied-de-Port</div>
+        <div class="day-meta">
+          <span class="chip">~18 km</span>
+          <span class="chip">↑ +740 m</span>
+          <span class="chip">↓ −740 m</span>
+          <span class="chip">6–7h</span>
+        </div>
+        <p class="day-desc">Etapa de "descanso" comparada com a anterior — perfil regular sem passagens técnicas. Chegada épica à cidade medieval de Saint-Jean-Pied-de-Port, uma das mais belas de França e ponto de cruzamento das três principais rotas do Caminho de Santiago.</p>
+        <ul class="day-highlights">
+          <li>Subida ao Oylarandoy (740m) — panorama sobre o País Basco</li>
+          <li>Descida pelos vinhedos de Irouléguy (único vinho AOC do País Basco francês)</li>
+          <li>SJPP — casco medieval, muralhas de Vauban, porto de Santiago</li>
+          <li>Comboio SNCF TER de regresso a partir daqui (→ Bayonne)</li>
+        </ul>
+        <div class="day-sleep">🏠 Hotel / gîte em Saint-Jean-Pied-de-Port · fonte: <a href="https://www.alltrails.com/lists/gr10-crossing-the-pyrenees" target="_blank">alltrails.com</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PERFIS DE ELEVAÇÃO -->
+<section id="perfis">
+  <div class="container">
+    <div class="section-tag">Altimetria</div>
+    <h2>Perfis de elevação</h2>
+    <p class="lead">Representação esquemática dos 4 dias — para GPX e perfis interativos ver gr-go.fr e AllTrails.</p>
+
+    <div class="elevation-wrap">
+      <div class="elevation-title">Dia 1 — Hendaia → Sare · 29km · +1100m</div>
+      <div class="chart-area"><canvas id="c1" role="img" aria-label="Perfil elevação dia 1"></canvas></div>
+    </div>
+    <div class="elevation-wrap">
+      <div class="elevation-title">Dia 2 — Sare → Bidarray (via Ainhoa) · ~22km · +1050m</div>
+      <div class="chart-area"><canvas id="c2" role="img" aria-label="Perfil elevação dia 2"></canvas></div>
+    </div>
+    <div class="elevation-wrap">
+      <div class="elevation-title">Dia 3 — Bidarray → Saint-Étienne-de-Baïgorry · ~17km · +1250m ⚠️ Mais exigente</div>
+      <div class="chart-area"><canvas id="c3" role="img" aria-label="Perfil elevação dia 3"></canvas></div>
+    </div>
+    <div class="elevation-wrap">
+      <div class="elevation-title">Dia 4 — Saint-Étienne-de-Baïgorry → Saint-Jean-Pied-de-Port · ~18km · +740m</div>
+      <div class="chart-area"><canvas id="c4" role="img" aria-label="Perfil elevação dia 4"></canvas></div>
+    </div>
+
+    <p style="font-size:0.78rem;color:var(--stone);margin-top:0.5rem">Fontes: <a href="https://gr-go.fr/grande-randonnee/gr10-hendaye-saint-jean-pied-de-port/" target="_blank" style="color:var(--moss)">gr-go.fr</a> · <a href="https://gpstraces.net/randonnee-pedestre-gr-10-hendaye-a-saint-jean-pied-port-trek-9" target="_blank" style="color:var(--moss)">gpstraces.net</a> · <a href="https://www.alltrails.com/lists/gr10-crossing-the-pyrenees" target="_blank" style="color:var(--moss)">alltrails.com</a></p>
+  </div>
+</section>
+
+<!-- TRANSPORTES -->
+<section id="transportes">
+  <div class="container">
+    <div class="section-tag">Logística</div>
+    <h2>Como chegar e como voltar</h2>
+    <p class="lead">Partida de Vila Nova de Gaia / Porto. Duas opções de ida, uma opção de regresso.</p>
+
+    <div class="warn-box">
+      ⚠️ <strong>Sud-Expresso suspenso.</strong> O histórico comboio noturno direto Porto → Hendaia está suspenso desde março de 2020. O parlamento português aprovou em novembro de 2025 negociações para retomada no 1.º semestre de 2026, mas sem data confirmada. Não contar com esta opção por agora — verificar em <a href="https://www.cp.pt" target="_blank" style="color:var(--amber)">cp.pt</a> quando tiverem datas.
+    </div>
+
+    <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--pine);margin-bottom:1rem">IDA — Porto → Hendaia</h3>
+    <div class="transport-grid">
+      <div class="transport-card">
+        <div class="transport-header">
+          <h3>Opção A — Autocarro direto</h3>
+          <span class="t-badge t-badge-rec">Recomendada</span>
+        </div>
+        <div class="transport-steps">
+          <div class="t-step">
+            <div class="t-step-icon">🚌</div>
+            <div class="t-step-text">
+              <strong>Porto (Campanhã) → San Sebastián</strong>
+              <small>ALSA ou FlixBus · ~11–13h · €40–60 · reservar em alsa.com</small>
+            </div>
+          </div>
+          <div class="t-step">
+            <div class="t-step-icon">🚆</div>
+            <div class="t-step-text">
+              <strong>San Sebastián → Hendaia (Euskotren)</strong>
+              <small>Estação Amara-Donostia · linha E2/E5 · 37 min · €2–4 · a cada 20 min · bilhete na máquina</small>
+            </div>
+          </div>
+        </div>
+        <div class="transport-meta">
+          <span>⏱ ~12h total</span>
+          <span>💶 €45–65 p.p.</span>
+        </div>
+      </div>
+      <div class="transport-card">
+        <div class="transport-header">
+          <h3>Opção B — Com noite em San Sebastián</h3>
+          <span class="t-badge t-badge-alt">+ Confortável</span>
+        </div>
+        <div class="transport-steps">
+          <div class="t-step">
+            <div class="t-step-icon">🚌</div>
+            <div class="t-step-text">
+              <strong>Porto → San Sebastián (noturno)</strong>
+              <small>Saída ~22h, chegada manhã · €40–60 · ALSA</small>
+            </div>
+          </div>
+          <div class="t-step">
+            <div class="t-step-icon">🌙</div>
+            <div class="t-step-text">
+              <strong>1 noite em San Sebastián</strong>
+              <small>Parte Velha, pintxos, praia da Concha — excelente ponto de entrada</small>
+            </div>
+          </div>
+          <div class="t-step">
+            <div class="t-step-icon">🚆</div>
+            <div class="t-step-text">
+              <strong>San Sebastián → Hendaia (Euskotren)</strong>
+              <small>37 min · a cada 20 min · €2–4</small>
+            </div>
+          </div>
+        </div>
+        <div class="transport-meta">
+          <span>⏱ +1 dia</span>
+          <span>💶 €80–120 p.p. + alojamento</span>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--pine);margin:2.5rem 0 1rem">REGRESSO — Saint-Jean-Pied-de-Port → Porto</h3>
+    <div class="transport-card" style="max-width:680px">
+      <div class="transport-header">
+        <h3>Via Bayonne → San Sebastián → Porto</h3>
+        <span class="t-badge t-badge-rec">Única opção prática</span>
+      </div>
+      <div class="transport-steps">
+        <div class="t-step">
+          <div class="t-step-icon">🚆</div>
+          <div class="t-step-text">
+            <strong>Saint-Jean-Pied-de-Port → Bayonne (SNCF TER)</strong>
+            <small>~1h05 · €10–15 · vários por dia · reservar em sncf-connect.com</small>
+          </div>
+        </div>
+        <div class="t-step">
+          <div class="t-step-icon">🚌</div>
+          <div class="t-step-text">
+            <strong>Bayonne → San Sebastián (FlixBus)</strong>
+            <small>~40–60 min · €5–15 · várias vezes por dia</small>
+          </div>
+        </div>
+        <div class="t-step">
+          <div class="t-step-icon">🚌</div>
+          <div class="t-step-text">
+            <strong>San Sebastián → Porto (ALSA noturno)</strong>
+            <small>~11h15 · €40–60 · chegada de manhã ao Porto</small>
+          </div>
+        </div>
+      </div>
+      <div class="transport-meta">
+        <span>⏱ ~13–14h total</span>
+        <span>💶 ~€55–80 p.p.</span>
+        <span>💡 Opção: pernoitar em San Sebastián e apanhar o autocarro no dia seguinte</span>
+      </div>
+    </div>
+
+    <div class="info-box">
+      💡 <strong>San Sebastián como pivot natural.</strong> Tanto na ida como na volta, San Sebastián é o ponto de ligação. É uma das melhores cidades do mundo para comer — pintxos na Parte Velha, sidra, txuleta. Bom argumento para adicionar um dia de cada lado.
+    </div>
+  </div>
+</section>
+
+<!-- INFO PRÁTICA -->
+<section id="pratico">
+  <div class="container">
+    <div class="section-tag">Para planear</div>
+    <h2>Informação prática</h2>
+    <p class="lead">Tudo o que precisam de saber antes de partir.</p>
+    <div class="practical-grid">
+      <div class="prac-card">
+        <div class="prac-icon">🛌</div>
+        <div class="prac-title">Alojamento</div>
+        <p class="prac-text">Gîtes d'étape ao longo da rota. Reservar <strong>sempre com antecedência</strong> em época alta (junho–agosto) — poucos lugares e muito procurados. Sare, Ainhoa e Saint-Jean têm mais opções. Bidarray tem 1–2 gîtes.</p>
+      </div>
+      <div class="prac-card">
+        <div class="prac-icon">💧</div>
+        <div class="prac-title">Água</div>
+        <p class="prac-text">Fontes regulares no caminho em geral. <strong>Exceção: cristas de Iparla (Dia 3) — sem fontes.</strong> Levar mínimo 2L no início desse troço. No Col d'Ibardin há ventas com abastecimento.</p>
+      </div>
+      <div class="prac-card">
+        <div class="prac-icon">🗓</div>
+        <div class="prac-title">Época</div>
+        <p class="prac-text">Abril–Outubro é ideal. Maio–Junho e Setembro–Outubro são os meses ótimos: menos gente, erva verde, bom tempo. Julho–Agosto: mais quente e mais caminhantes. Inverno: neve possível nas cristas.</p>
+      </div>
+      <div class="prac-card">
+        <div class="prac-icon">⛈️</div>
+        <div class="prac-title">Météo</div>
+        <p class="prac-text">O País Basco tem a reputação de ser <strong>muito húmido</strong> — não é mito. Levar capa de chuva boa. As passagens mais técnicas (Col de Méhatché, Iparla) são perigosas com chuva e nevoeiro.</p>
+      </div>
+      <div class="prac-card">
+        <div class="prac-icon">🗺</div>
+        <div class="prac-title">Cartografia</div>
+        <p class="prac-text">Carta IGN TOP100 nº166 "Pau–Bayonne". Topoguia FFRandonnée "Pyrénées Occidentales" (ref. 1086). App Visorando ou IGNrando para cartas 1:25.000 offline. GPX em <a href="https://gr-go.fr" target="_blank">gr-go.fr</a>.</p>
+      </div>
+      <div class="prac-card">
+        <div class="prac-icon">🔴</div>
+        <div class="prac-title">Sinalização</div>
+        <p class="prac-text">Marcas <strong>brancas e vermelhas</strong> do GR — bem mantidas em toda a secção vasca. A rota é clara. Em troços de fronteira podem encontrar marcas bidirecionais — atenção à direção.</p>
+      </div>
+      <div class="prac-card">
+        <div class="prac-icon">🦺</div>
+        <div class="prac-title">Equipamento</div>
+        <p class="prac-text">Capa de chuva obrigatória. Bastões úteis nas descidas (Méhatché e Iparla). Calçado impermeável recomendado. Farmácia de campanha. Carregador portátil.</p>
+      </div>
+      <div class="prac-card">
+        <div class="prac-icon">🧀</div>
+        <div class="prac-title">Gastronomia</div>
+        <p class="prac-text">Queijo Ossau-Iraty (ovelha), patas de cerdo, jambon de Bayonne, pastel Basque, cidra (sagardoa), txakoli. Sidra e pintxos em San Sebastián na chegada/saída — obrigatório.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RECURSOS -->
+<section id="recursos">
+  <div class="container">
+    <div class="section-tag">Links e fontes</div>
+    <h2>Recursos úteis</h2>
+    <p class="lead">Sites e ferramentas para planear a travessia.</p>
+    <ul class="resource-list">
+      <li>
+        <div><div class="res-name">gr-go.fr</div><div class="res-desc">Perfis por etapa, GPX, refuges e météo específicos para o GR10 Hendaia–SJPP</div></div>
+        <div class="res-link"><a href="https://gr-go.fr/grande-randonnee/gr10-hendaye-saint-jean-pied-de-port/" target="_blank">gr-go.fr ↗</a></div>
+      </li>
+      <li>
+        <div><div class="res-name">AllTrails — GR10 Segments 1–5</div><div class="res-desc">Mapa interativo, perfil altimétrico, reviews de outros caminhantes, descarga GPX</div></div>
+        <div class="res-link"><a href="https://www.alltrails.com/lists/gr10-crossing-the-pyrenees" target="_blank">alltrails.com ↗</a></div>
+      </li>
+      <li>
+        <div><div class="res-name">Respyrénées</div><div class="res-desc">Agência especialista no GR10. Pacotes de caminhada livre com transporte de bagagem opcional</div></div>
+        <div class="res-link"><a href="https://www.respyrenees.com/es/el-gr10/gr10-por-libre" target="_blank">respyrenees.com ↗</a></div>
+      </li>
+      <li>
+        <div><div class="res-name">Wikiloc — GR10 País Vasco</div><div class="res-desc">Tracks GPS reais de pessoas que fizeram a rota, com fotos e comentários no terreno</div></div>
+        <div class="res-link"><a href="https://www.wikiloc.com" target="_blank">wikiloc.com ↗</a></div>
+      </li>
+      <li>
+        <div><div class="res-name">Hunza.pro — Relato de 4 dias</div><div class="res-desc">Relato detalhado da travessia em 4 dias com desníveis por troço e fotos</div></div>
+        <div class="res-link"><a href="https://www.hunza.pro/2019/09/randonnee-dans-la-montagne-basque-sur-le-gr-10-d-hendaye-a-saint-jean-pied-de-port.html" target="_blank">hunza.pro ↗</a></div>
+      </li>
+      <li>
+        <div><div class="res-name">SNCF Connect</div><div class="res-desc">Horários e bilhetes do comboio Saint-Jean-Pied-de-Port → Bayonne (TER)</div></div>
+        <div class="res-link"><a href="https://www.sncf-connect.com" target="_blank">sncf-connect.com ↗</a></div>
+      </li>
+      <li>
+        <div><div class="res-name">ALSA / FlixBus</div><div class="res-desc">Autocarros Porto ↔ San Sebastián. Reservar com antecedência para melhores preços</div></div>
+        <div class="res-link"><a href="https://www.alsa.com/en/coach/porto-san-sebastian" target="_blank">alsa.com ↗</a></div>
+      </li>
+      <li>
+        <div><div class="res-name">Euskotren</div><div class="res-desc">San Sebastián (Amara) ↔ Hendaia · linha E2/E5 · a cada 20 min · €2–4</div></div>
+        <div class="res-link"><a href="https://www.euskotren.eus" target="_blank">euskotren.eus ↗</a></div>
+      </li>
+      <li>
+        <div><div class="res-name">Météo-France / AEMET</div><div class="res-desc">Previsão meteorológica para a zona dos Pirinéus Atlânticos — consultar antes de cada etapa</div></div>
+        <div class="res-link"><a href="https://meteofrance.com" target="_blank">meteofrance.com ↗</a></div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p><strong>GR10 — Pirinéus Bascos · Guia Interno de Caminhada</strong></p>
+  <p style="margin-top:0.5rem">Uso interno · Preparado em maio de 2026 · Informações sujeitas a alteração</p>
+  <p style="margin-top:0.5rem">Fontes: respyrenees.com · gr-go.fr · alltrails.com · hunza.pro · wikiloc.com · gpstraces.net · rome2rio.com · alsa.com · sncf-connect.com · euskotren.eus · Wikimedia Commons</p>
+  <p style="margin-top:0.5rem">Imagens: frenchpyreneeswalking.co.uk · Wikimedia Commons (CC-BY-SA) · respyrenees.com</p>
+</footer>
+
+<!-- CHARTS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const gridC = 'rgba(45,74,45,0.1)';
+const textC = '#8a8070';
+
+function makeProfile(id, labels, data, color, maxY) {
+  new Chart(document.getElementById(id), {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [{
+        data,
+        borderColor: color,
+        borderWidth: 2.5,
+        pointRadius: 4,
+        pointBackgroundColor: color,
+        fill: true,
+        backgroundColor: color.replace('rgb(', 'rgba(').replace(')', ',0.12)'),
+        tension: 0.35
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: {
+        callbacks: { label: ctx => ctx.parsed.y + ' m' }
+      }},
+      scales: {
+        x: { grid: { color: gridC }, ticks: { color: textC, font: { size: 11, family: 'DM Sans' } } },
+        y: { min: 0, max: maxY, grid: { color: gridC }, ticks: { color: textC, font: { size: 11, family: 'DM Sans' }, callback: v => v + 'm' } }
+      }
+    }
+  });
+}
+
+makeProfile('c1',
+  ['Hendaia 10m','Biriatou','Col Osin 374m','Col Ibardin 317m','Col 3 Fontaines 574m','Sare 50m'],
+  [10,120,374,317,574,50], 'rgb(45,74,45)', 700);
+
+makeProfile('c2',
+  ['Sare 50m','Chapelle Arantze','Ereby 583m','Col Méhatché 660m','Vale Bastan','Bidarray 150m'],
+  [50,350,583,660,200,150], 'rgb(107,140,90)', 800);
+
+makeProfile('c3',
+  ['Bidarray 150m','Subida Iparla','Larratéko 962m','Cume Iparla 1044m','Descida','St-Étienne 162m'],
+  [150,450,962,1044,500,162], 'rgb(180,60,30)', 1200);
+
+makeProfile('c4',
+  ['St-Étienne 162m','Início subida','Oylarandoy 740m','Início descida','St-Jean-Pied-de-Port 170m'],
+  [162,350,740,450,170], 'rgb(139,92,246)', 900);
+</script>
+</body>
+</html>
